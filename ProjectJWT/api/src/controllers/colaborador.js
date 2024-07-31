@@ -72,12 +72,13 @@ const { matricula } = req.params
 
 const del = async (req, res) => {
     try {
-        const colaborador = await prisma.colaborador.delete({
+        const { matricula } = req.params
+        await prisma.colaborador.delete({
             where: {
-                matricula: req.params.matricula
+                matricula: matricula
             }
         });
-        return res.status(204).json(colaborador);
+        return res.status(204).send();
     } catch (error) {
         return res.status(404).json({ message: "colaborador não encontrado" });
     }
