@@ -12,8 +12,6 @@ const create = async (req, res) => {
     }
 }
 
-
-
 const read = async (req, res) => {
     try {
         const { id } = req.params;
