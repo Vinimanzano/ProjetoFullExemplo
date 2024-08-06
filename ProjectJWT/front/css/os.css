@@ -139,3 +139,65 @@ button:disabled {
     color: #0056b3;
     text-decoration: none;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.modal .close,
+.modal .close-details {
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal .close:hover,
+.modal .close-details:hover {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    margin: 5px;
+}
+
+#details-modal .modal-content {
+    max-width: 500px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    padding: 10px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.search-container button {
+    padding: 10px;
+}

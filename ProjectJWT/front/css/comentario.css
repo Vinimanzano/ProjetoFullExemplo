@@ -143,3 +143,25 @@ textarea {
 .close:hover {
     color: #0056b3;
 }
+
+/* Centralizar o container da pesquisa */
+#search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-container input[type="text"] {
+    width: 200px;
+    margin-right: 10px;
+}
+
+#search-container button {
+    padding: 12px 20px;
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

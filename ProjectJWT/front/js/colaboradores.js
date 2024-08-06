@@ -1,9 +1,11 @@
+// Redireciona para a página inicial ao clicar no botão "Voltar"
 document.getElementById('back-button').addEventListener('click', () => {
     window.location.href = 'index.html';
 });
 
 const API_BASE_URL = 'http://localhost:3000';
 
+// Alterna a visibilidade do campo de senha
 const togglePasswordVisibility = (inputId, buttonId) => {
     const passwordInput = document.getElementById(inputId);
     const toggleButton = document.getElementById(buttonId);
@@ -17,6 +19,7 @@ const togglePasswordVisibility = (inputId, buttonId) => {
     }
 };
 
+// Adiciona os ouvintes de eventos para os botões de alternar a visibilidade da senha
 document.getElementById('toggle-password').addEventListener('click', () => {
     togglePasswordVisibility('pin', 'toggle-password');
 });
@@ -25,6 +28,7 @@ document.getElementById('toggle-modal-password').addEventListener('click', () =>
     togglePasswordVisibility('modal-pin', 'toggle-modal-password');
 });
 
+// Funções para manipulação dos colaboradores
 const fetchColaboradores = async () => {
     const response = await fetch(`${API_BASE_URL}/colaborador`);
     if (!response.ok) throw new Error('Erro ao buscar colaboradores');
@@ -60,10 +64,12 @@ const updateColaborador = async (id, colaborador) => {
         },
         body: JSON.stringify(colaborador)
     });
+
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`Erro ao atualizar colaborador: ${errorData.message || response.statusText}`);
     }
+
     return response.json();
 };
 
@@ -71,6 +77,7 @@ const deleteColaborador = async (id) => {
     const response = await fetch(`${API_BASE_URL}/colaborador/${id}`, {
         method: 'DELETE'
     });
+
     if (!response.ok) throw new Error('Erro ao excluir colaborador');
 };
 
@@ -88,7 +95,7 @@ const displayColaboradores = async () => {
                     <p><strong>Setor:</strong> ${colaborador.setor}</p>
                     <p>
                         <span class="pin" id="pin-${colaborador.matricula}" style="display: none;">${colaborador.pin}</span>
-                        <button class="show-pin-btn" data-id="${colaborador.matricula}">Mostrar PIN</button>
+                        <button class="show-pin-btn" data-id="${colaborador.matricula}"><i class="bi bi-eye"></i></button>
                     </p>
                     <button class="edit-btn">Editar</button>
                     <button class="delete-btn">Excluir</button>
@@ -96,17 +103,20 @@ const displayColaboradores = async () => {
             `;
         });
 
+        // Adiciona os ouvintes de eventos para os botões de mostrar/ocultar PIN
         document.querySelectorAll('.show-pin-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
                 const pinElement = document.getElementById(`pin-${id}`);
                 const isHidden = pinElement.style.display === 'none';
+                const icon = btn.querySelector('i');
 
                 pinElement.style.display = isHidden ? 'inline' : 'none';
-                btn.innerText = isHidden ? 'Ocultar PIN' : 'Mostrar PIN';
+                icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
             });
         });
 
+        // Adiciona os ouvintes de eventos para os botões de editar
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.parentElement.getAttribute('data-id');
@@ -114,6 +124,7 @@ const displayColaboradores = async () => {
             });
         });
 
+        // Adiciona os ouvintes de eventos para os botões de excluir
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.parentElement.getAttribute('data-id');
@@ -126,6 +137,8 @@ const displayColaboradores = async () => {
     }
 };
 
+
+// Manipula a exclusão de um colaborador
 const deleteColaboradorHandler = async (id) => {
     try {
         await deleteColaborador(id);
@@ -135,10 +148,12 @@ const deleteColaboradorHandler = async (id) => {
     }
 };
 
+// Abre o modal de edição e preenche com as informações do colaborador
 const openEditModal = async (id) => {
     try {
         const colaboradores = await fetchColaboradores();
         const colaborador = colaboradores.find(col => col.matricula === id);
+
         if (colaborador) {
             document.getElementById('modal-matricula').value = colaborador.matricula;
             document.getElementById('modal-matricula-display').value = colaborador.matricula;
@@ -163,6 +178,7 @@ const openEditModal = async (id) => {
                     setor: document.getElementById('modal-setor').value,
                     pin: document.getElementById('modal-pin').value
                 };
+
                 try {
                     await updateColaborador(updatedColaborador.matricula, updatedColaborador);
                     modal.style.display = 'none';
@@ -177,4 +193,5 @@ const openEditModal = async (id) => {
     }
 };
 
+// Carrega e exibe a lista de colaboradores ao carregar a página
 document.addEventListener('DOMContentLoaded', displayColaboradores);

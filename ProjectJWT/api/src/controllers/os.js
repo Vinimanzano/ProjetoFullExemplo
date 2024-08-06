@@ -43,17 +43,32 @@ const read = async (req, res) => {
 const update = async (req, res) => {
     try {
         const { id } = req.params;
+        const { colaborador, executor, descricao, abertura, encerramento } = req.body;
+
+        if (!colaborador && !executor && !descricao && !abertura && !encerramento) {
+            return res.status(400).json({ message: "Nenhum dado foi informado para atualizar" });
+        }
+
         const os = await prisma.os.update({
             where: {
                 id: parseInt(id)
             },
-            data: req.body
+            data: {
+                colaborador: colaborador || undefined,
+                executor: executor || undefined,
+                descricao: descricao || undefined,
+                abertura: abertura ? new Date(abertura) : undefined,
+                encerramento: encerramento ? new Date(encerramento) : undefined
+            }
         });
+
         return res.status(202).json(os);
     } catch (error) {
+        // Trata o caso onde a OS não é encontrada
         return res.status(404).json({ message: "OS não encontrada" });
     }
 };
+
 
 const del = async (req, res) => {
     try {
