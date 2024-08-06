@@ -34,5 +34,5 @@ npx nodemon
 - Acessar a pasta ./front
 - Exercutar o arquivos **index.html** com **live server**
 
-DATABASE_URL="mysql://root@localhost:3306/os?serverTimezone=UTC"
-KEY="base64:q3
+- DATABASE_URL="mysql://root@localhost:3306/os?serverTimezone=UTC"
+- SECRET_KEY="base64:q3
